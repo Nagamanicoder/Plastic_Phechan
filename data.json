@@ -1,0 +1,92 @@
+{
+  "water_bottle": {
+    "type": "PET",
+    "recycler_name": "Recycle-It-Right Inc.",
+    "address": "456, MG Road, Bengaluru",
+    "eco_points": 10
+  },
+  "milk_pouch": {
+    "type": "LDPE",
+    "recycler_name": "Eco-Cycle Solutions",
+    "address": "123, Vittal Mallya Road, Bengaluru",
+    "eco_points": 5
+  },
+  "plastic_bag": {
+    "type": "HDPE/LDPE",
+    "recycler_name": "Green Earth Recyclers",
+    "address": "789, Brigade Road, Bengaluru",
+    "eco_points": 3
+  },
+  "food_container": {
+    "type": "PP",
+    "recycler_name": "Sustainable Waste Management",
+    "address": "321, Commercial Street, Bengaluru",
+    "eco_points": 8
+  },
+  "yogurt_cup": {
+    "type": "PS",
+    "recycler_name": "Eco-Friendly Disposal Co.",
+    "address": "654, Residency Road, Bengaluru",
+    "eco_points": 6
+  },
+  "detergent_bottle": {
+    "type": "HDPE",
+    "recycler_name": "CleanTech Recycling",
+    "address": "987, Indiranagar, Bengaluru",
+    "eco_points": 12
+  },
+  "shampoo_bottle": {
+    "type": "HDPE",
+    "recycler_name": "CleanTech Recycling",
+    "address": "987, Indiranagar, Bengaluru",
+    "eco_points": 8
+  },
+  "cooking_oil_bottle": {
+    "type": "PET",
+    "recycler_name": "Recycle-It-Right Inc.",
+    "address": "456, MG Road, Bengaluru",
+    "eco_points": 15
+  },
+  "biscuit_wrapper": {
+    "type": "Multilayer",
+    "recycler_name": "Advanced Polymer Recycling",
+    "address": "147, Koramangala, Bengaluru",
+    "eco_points": 2
+  },
+  "ice_cream_container": {
+    "type": "PP",
+    "recycler_name": "Sustainable Waste Management",
+    "address": "321, Commercial Street, Bengaluru",
+    "eco_points": 7
+  },
+  "medicine_bottle": {
+    "type": "HDPE",
+    "recycler_name": "Medical Waste Recyclers",
+    "address": "258, Whitefield, Bengaluru",
+    "eco_points": 10
+  },
+  "beverage_bottle": {
+    "type": "PET",
+    "recycler_name": "Recycle-It-Right Inc.",
+    "address": "456, MG Road, Bengaluru",
+    "eco_points": 9
+  },
+  "takeaway_container": {
+    "type": "PS",
+    "recycler_name": "Eco-Friendly Disposal Co.",
+    "address": "654, Residency Road, Bengaluru",
+    "eco_points": 4
+  },
+  "chip_packet": {
+    "type": "Multilayer",
+    "recycler_name": "Advanced Polymer Recycling",
+    "address": "147, Koramangala, Bengaluru",
+    "eco_points": 1
+  },
+  "soap_dispenser": {
+    "type": "PP",
+    "recycler_name": "Sustainable Waste Management",
+    "address": "321, Commercial Street, Bengaluru",
+    "eco_points": 6
+  }
+}

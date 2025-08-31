@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plastic Pehchan - Voice Bot</title>
+    <script src="https://kit.fontawesome.com/b776ffb521.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            color: #2d5a3d;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header i {
+            color: #4CAF50;
+        }
+
+        .instruction {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .controls {
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            min-width: 180px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-start {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-start:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-start.recording {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+        }
+
+        .btn-stop {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-stop:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .response-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #4CAF50;
+            margin-top: 20px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e0e0e0;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .bot-response {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .bot-response h3 {
+            color: #2d5a3d;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bot-response p {
+            color: #444;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        .audio-player::-webkit-media-controls-panel {
+            background-color: #f0f8ff;
+            border-radius: 25px;
+        }
+
+        .status-indicator {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .status-ready {
+            background: #e8f5e8;
+            color: #2d5a3d;
+        }
+
+        .status-recording {
+            background: #ffe8e8;
+            color: #d32f2f;
+        }
+
+        .status-processing {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header {
+                font-size: 2em;
+            }
+
+            .btn {
+                min-width: 160px;
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+
+            .instruction {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .header {
+                font-size: 1.8em;
+            }
+
+            .btn {
+                min-width: 140px;
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h1 class="header">
+            <i class="fa-solid fa-recycle"></i>
+            Plastic Pehchan
+        </h1>
+        
+        <p class="instruction">
+            Tap the microphone and tell me what plastic you have. I'll help you identify it and provide recycling information.
+        </p>
+
+        <div class="controls">
+            <button id="startBtn" class="btn btn-start">
+                <i class="fa-solid fa-microphone"></i>
+                Start Recording
+            </button>
+            
+            <button id="stopBtn" class="btn btn-stop hidden">
+                <i class="fa-solid fa-stop"></i>
+                Stop Recording
+            </button>
+        </div>
+
+        <div id="statusIndicator" class="status-indicator status-ready">
+            <i class="fa-solid fa-circle-check"></i>
+            Ready to listen
+        </div>
+
+        <div id="responseSection" class="response-section hidden">
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                Processing your request...
+            </div>
+            
+            <div id="botResponse" class="bot-response hidden">
+                <h3>
+                    <i class="fas fa-robot"></i>
+                    Plastic Pehchan Bot:
+                </h3>
+                <p id="responseText"></p>
+            </div>
+            
+            <audio id="audioPlayer" class="audio-player hidden" controls></audio>
+        </div>
+    </div>
+
+    <script>
+        // Get references to HTML elements
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const responseSection = document.getElementById('responseSection');
+        const loading = document.getElementById('loading');
+        const botResponse = document.getElementById('botResponse');
+        const responseText = document.getElementById('responseText');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const statusIndicator = document.getElementById('statusIndicator');
+
+        // State management variables
+        let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Update status indicator
+        function updateStatus(status, message, icon) {
+            statusIndicator.className = `status-indicator status-${status}`;
+            statusIndicator.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
+        }
+
+        // Start recording function
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        sampleRate: 44100
+                    } 
+                });
+                
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'audio/webm;codecs=opus'
+                });
+                
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = handleRecordingStop;
+                
+                mediaRecorder.start(100); // Collect data every 100ms
+                isRecording = true;
+                
+                // Update UI
+                startBtn.classList.add('recording');
+                startBtn.innerHTML = '<i class="fas fa-microphone"></i> Recording...';
+                startBtn.disabled = true;
+                stopBtn.classList.remove('hidden');
+                updateStatus('recording', 'Recording... Speak now', 'microphone');
+                
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                alert('Could not access microphone. Please check your permissions and try again.');
+                updateStatus('ready', 'Ready to listen', 'check-circle');
+            }
+        }
+
+        // Stop recording function
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                isRecording = false;
+                
+                // Update UI
+                startBtn.classList.remove('recording');
+                startBtn.innerHTML = '<i class="fas fa-microphone"></i> Start Recording';
+                stopBtn.classList.add('hidden');
+                updateStatus('processing', 'Processing your audio...', 'cog');
+            }
+        }
+
+        // Handle recording stop
+        function handleRecordingStop() {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            sendAudioToServer(audioBlob);
+        }
+
+        // Send audio to server
+        async function sendAudioToServer(audioBlob) {
+            try {
+                // Show loading state
+                responseSection.classList.remove('hidden');
+                loading.classList.remove('hidden');
+                botResponse.classList.add('hidden');
+                audioPlayer.classList.add('hidden');
+                
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'recording.webm');
+                
+                const response = await fetch('/process_audio', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                displayResponse(result);
+                
+            } catch (error) {
+                console.error('Error sending audio to server:', error);
+                displayError('Sorry, there was an error processing your request. Please try again.');
+            } finally {
+                // Re-enable recording
+                startBtn.disabled = false;
+                updateStatus('ready', 'Ready to listen', 'check-circle');
+            }
+        }
+
+        // Display bot response
+        function displayResponse(result) {
+            loading.classList.add('hidden');
+            
+            if (result.text) {
+                responseText.textContent = result.text;
+                botResponse.classList.remove('hidden');
+            }
+            
+            if (result.audio_url) {
+                audioPlayer.src = result.audio_url;
+                audioPlayer.classList.remove('hidden');
+                // Auto-play the response
+                audioPlayer.play().catch(e => {
+                    console.log('Auto-play prevented by browser:', e);
+                });
+            }
+        }
+
+        // Display error message
+        function displayError(message) {
+            loading.classList.add('hidden');
+            responseText.textContent = message;
+            botResponse.classList.remove('hidden');
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', startRecording);
+        stopBtn.addEventListener('click', stopRecording);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space' && !isRecording) {
+                event.preventDefault();
+                startRecording();
+            } else if (event.code === 'Space' && isRecording) {
+                event.preventDefault();
+                stopRecording();
+            }
+        });
+
+        // Check for browser compatibility
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            startBtn.disabled = true;
+            startBtn.textContent = 'Microphone not supported';
+            updateStatus('ready', 'Microphone not supported in this browser', 'exclamation-triangle');
+        }
+
+        // Handle audio player events
+        audioPlayer.addEventListener('ended', () => {
+            updateStatus('ready', 'Ready for next question', 'check-circle');
+        });
+
+        audioPlayer.addEventListener('error', (e) => {
+            console.error('Audio playback error:', e);
+            updateStatus('ready', 'Audio playback failed', 'exclamation-triangle');
+        });
+    </script>
+</body>
+</html>
