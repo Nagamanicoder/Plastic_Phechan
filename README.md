@@ -8,6 +8,7 @@ Frameworks & Platforms: Flask, Ollama (gemma:2b)
 APIs & Libraries: ollama Python library, requests, MediaRecorder API, Speech-to-Text (STT) API, Text-to-Speech (TTS) API
 
  Getting Started
+ 
 This project uses Ollama as its local AI engine. You must have it installed and running on your machine to use the project.
 
 Prerequisites
