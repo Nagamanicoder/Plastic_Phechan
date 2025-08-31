@@ -1,0 +1,9 @@
+flask==2.3.3
+flask-cors==4.0.0
+SpeechRecognition==3.10.0
+pydub==0.25.1
+pyaudio==0.2.11
+gtts==2.3.2
+ollama==0.1.7
+requests==2.31.0
+werkzeug==2.3.7
